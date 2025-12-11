@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Account & Data Deletion | Brick App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #d93025;
+            --primary-text: #1f2937;
+            --secondary-text: #6b7280;
+            --light-bg: #f9fafb;
+            --border-color: #e5e7eb;
+            --success-green: #059669; /* Added for success message */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--primary-text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 40px 20px;
+            padding: 32px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: var(--primary-red);
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        p {
+            line-height: 1.6;
+            color: var(--secondary-text);
+            margin-bottom: 15px;
+        }
+        /* Warning Box Styling (kept for context) */
+        .warning-box {
+            background-color: #fee2e2;
+            border: 1px solid var(--primary-red);
+            border-left: 6px solid var(--primary-red);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .warning-box strong {
+            color: var(--primary-red);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .warning-box ul {
+            padding-left: 20px;
+            margin-top: 10px;
+            color: var(--primary-red);
+            font-size: 0.9rem;
+        }
+        /* Form & Input Styling (simplified/merged) */
+        .form-content, .success-message {
+            transition: opacity 0.3s ease;
+        }
+        .success-message {
+            display: none; /* Initially hidden */
+            text-align: center;
+            padding: 40px 20px;
+            background-color: #ecfdf5; /* Light green background */
+            border: 1px solid var(--success-green);
+            border-radius: 8px;
+        }
+        .success-message h2 {
+            color: var(--success-green);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .form-group { margin-bottom: 20px; }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--primary-text);
+        }
+        input[type="email"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        textarea { resize: vertical; min-height: 100px; }
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+        .checkbox-group input {
+            margin-right: 10px;
+            margin-top: 3px;
+            min-width: 16px;
+        }
+        .delete-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-red);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .delete-btn:hover { background-color: #c0392b; }
+        .support-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        .support-link a {
+            color: var(--primary-text);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="successMessage" class="success-message">
+            <h2>✅ Request Received!</h2>
+            <p>Thank you. Your account and data deletion request has been successfully submitted and logged.</p>
+            <p>We will send a **confirmation email** to the address provided with details on the review and permanent deletion timeline (typically within 30 days).</p>
+        </div>
+
+        <div id="formContent" class="form-content">
+            <h1>Request Account & Data Deletion</h1>
+            <p>We are sorry to see you go. Please read the following information carefully before submitting your request. Data deletion is **permanent** and irreversible.</p>
+
+            <div class="warning-box">
+                <strong>WARNING: What Happens When You Delete Your Account?</strong>
+                <p>Your action will permanently delete:</p>
+                <ul>
+                    <li>Your entire profile, including username and history.</li>
+                    <li>All user-generated content (posts, comments, uploads, etc.).</li>
+                    <li>Your associated data (preferences, activity logs, payment history, etc.).</li>
+                    <li>You will lose access to all services tied to this account.</li>
+                </ul>
+            </div>
+
+            <form id="deletionForm">
+                <div class="form-group">
+                    <label for="email">Account Email Address (For Verification)</label>
+                    <input type="email" id="email" name="email" placeholder="name@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reason">Reason for Deletion (Optional)</label>
+                    <textarea id="reason" name="reason" placeholder="Sharing your reason helps us improve our service."></textarea>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="confirm" name="confirm_deletion" value="confirmed" required>
+                    <label for="confirm">
+                        I understand that deleting my account and data is a **permanent action** and cannot be undone.
+                    </label>
+                </div>
+
+                <button type="submit" class="delete-btn" id="submitButton">Permanently Delete My Account</button>
+            </form>
+        </div>
+
+        <div class="support-link">
+            <p>Need help or have questions about your data? <a href="/support" target="_blank">Contact Support</a></p>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('deletionForm');
+        const formContent = document.getElementById('formContent');
+        const successMessage = document.getElementById('successMessage');
+        const submitButton = document.getElementById('submitButton');
+
+        const API_ENDPOINT = 'https://x8ki-letl-twmt.n7.xano.io/api:zrt8IXcf/delete';
+
+        form.addEventListener('submit', handleSubmission);
+
+        async function handleSubmission(event) {
+            event.preventDefault(); // Stop the browser from navigating away
+            
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting Request...';
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // Remove the 'confirm_deletion' checkbox from the payload if you only want email and reason
+            delete data.confirm_deletion; 
+
+            try {
+                const response = await fetch(API_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    // Send the data as a JSON string
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    // Success: Hide the form and show the success message
+                    formContent.style.display = 'none';
+                    successMessage.style.display = 'block';
+                } else {
+                    // Handle API errors (e.g., status 400, 500)
+                    alert('Error submitting request. Please try again or contact support.');
+                }
+            } catch (error) {
+                // Handle network errors
+                console.error('Submission failed:', error);
+                alert('A network error occurred. Please check your connection and try again.');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Permanently Delete My Account';
+            }
+        }
+    </script>
+</body>
+</html>
